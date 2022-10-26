@@ -1,11 +1,20 @@
-﻿namespace Domain;
+﻿using CSharpFunctionalExtensions;
+
+namespace Domain;
 
 public class User
 {
-    public User(string name)
-    {
+    private User(string name)
+    { 
         Name = name;
     }
 
-    public string Name { get; }
+    public static Result<User> Create(string name)
+    {
+        if (name.StartsWith("A"))
+            return Result.Failure<User>("ljsdlsqd");
+        return new User(name);
+    }
+
+    private string Name { get; }
 }

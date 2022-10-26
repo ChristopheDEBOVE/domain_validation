@@ -11,13 +11,16 @@ app.MapPut("/user",
 async (UserDto? userDto,
              ISubscribeUserService subscribeUserService) =>
 {
-    if (string.IsNullOrEmpty(userDto?.Name))
-        return Results.BadRequest("Name of user is mandatory");
-    
-    var user = new User(userDto.Name);
-    await subscribeUserService.Subscribe(user);
+    var result = User.Create(userDto?.Name);
+    if (result.IsFailure)
+        return Results.BadRequest(result.Error);
+        
+    await subscribeUserService.Subscribe(result.Value);
     return Results.Ok();
 });
+
+// intro ,  la première video d'une série qui va parler de la validation en C# asp.net core
+
 
 
 
